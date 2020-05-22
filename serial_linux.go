@@ -125,7 +125,7 @@ func openPort(name string, baud int, databits byte, parity Parity, stopbits Stop
 		return
 	}
 
-	return &Port{f: f,Fd: fd}, nil
+	return &Port{f: f,Fd: int(fd)}, nil
 }
 
 type Port struct {
