@@ -125,21 +125,22 @@ func openPort(name string, baud int, databits byte, parity Parity, stopbits Stop
 		return
 	}
 
-	return &Port{f: f}, nil
+	return &Port{f: f,Fd: fd}, nil
 }
 
 type Port struct {
 	// We intentionly do not use an "embedded" struct so that we
 	// don't export File
 	f *os.File
+	Fd int
 }
 
 func (p *Port) Read(b []byte) (n int, err error) {
-	return p.f.Read(b)
+	return unix.Read(p.Fd, b)
 }
 
 func (p *Port) Write(b []byte) (n int, err error) {
-	return p.f.Write(b)
+	return unix.Write(p.Fd, b)
 }
 
 // Discards data written to the port but not transmitted,
